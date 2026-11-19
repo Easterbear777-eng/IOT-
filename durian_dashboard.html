@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="th"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สวนทุเรียนอัจฉริยะ (ต้นแบบ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#edf0ea; --surface:#fbfcfa; --ink:#17281c; --muted:#5b6b5f; --line:#cfd8cc;
+ --green:#2f6b3a; --yellow:#c98a0a; --yellow-bg:#fbf0d2; --red:#b3321f; --red-bg:#f8dcd6; --green-bg:#dcecd9;
+ --soil:#7a5532; --line-green:#06c755; color-scheme:light;
+ box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#111a14; --surface:#1a261d; --ink:#e6eee7; --muted:#9db0a1; --line:#2c3d30;
+ --green:#7cc489; --yellow:#e5b341; --yellow-bg:#3a2f12; --red:#f08a78; --red-bg:#3d1c17; --green-bg:#1e3a24; --soil:#c39a6b; color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#111a14; --surface:#1a261d; --ink:#e6eee7; --muted:#9db0a1; --line:#2c3d30;
+ --green:#7cc489; --yellow:#e5b341; --yellow-bg:#3a2f12; --red:#f08a78; --red-bg:#3d1c17; --green-bg:#1e3a24; --soil:#c39a6b; color-scheme:dark;}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai','Loma',system-ui,sans-serif;font-size:16px;line-height:1.55}
+main{max-width:760px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.5rem;font-weight:800;margin:6px 0 2px}
+h2{font-size:1.1rem;font-weight:800;margin:26px 0 8px}
+.sub{color:var(--muted);margin:0 0 6px;font-size:.92rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0}
+.zone h3{margin:0 0 6px;font-size:1.02rem;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.badge{font-size:.78rem;font-weight:600;padding:2px 9px;border-radius:99px}
+.ok{background:var(--green-bg);color:var(--green)} .warn{background:var(--yellow-bg);color:var(--yellow)} .bad{background:var(--red-bg);color:var(--red)}
+.soil{height:26px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden;position:relative;margin:4px 0 8px}
+.soil i{position:absolute;inset:0 auto 0 0;background:var(--soil);opacity:.85;transition:width .25s}
+.soil b{position:absolute;left:8px;top:0;font-size:.85rem;line-height:24px;color:#fff;mix-blend-mode:normal;text-shadow:0 0 3px rgba(0,0,0,.6)}
+.row{display:grid;grid-template-columns:5.2rem 1fr 3.4rem;gap:8px;align-items:center;margin:3px 0;font-size:.9rem}
+.row span:last-child{text-align:right;font-weight:600}
+input[type=range]{width:100%;accent-color:var(--green)}
+.rain{display:flex;gap:6px;align-items:flex-end;height:96px;margin:8px 0}
+.rain div{flex:1;text-align:center;font-size:.78rem;color:var(--muted)}
+.rain i{display:block;background:#4b86b8;border-radius:4px 4px 0 0;min-height:2px;transition:height .25s}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin:8px 0}
+.cell{aspect-ratio:1;border-radius:5px;border:0;cursor:pointer;font:inherit;font-size:.7rem;color:#fff}
+.cell:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.c0{background:#5a9b64}.c1{background:#d19a1c}.c2{background:#b3321f}
+button.btn{font:inherit;font-weight:600;background:var(--green);color:var(--bg);border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
+.alert{border-left:5px solid var(--line);padding:8px 12px;margin:8px 0;border-radius:0 8px 8px 0;background:var(--surface)}
+.alert.a2{border-color:var(--red)} .alert.a1{border-color:var(--yellow)} .alert.a0{border-color:var(--green)}
+.alert b{display:block}
+.alert small{color:var(--muted)}
+.phone{background:#8fb7a0;border-radius:14px;padding:12px;margin:10px 0}
+.phone .hd{font-size:.8rem;color:#12361f;margin-bottom:6px;font-weight:600}
+.bub{background:#fff;color:#111;border-radius:4px 14px 14px 14px;padding:8px 12px;margin:6px 0;font-size:.92rem;max-width:92%;white-space:pre-line}
+.note{font-size:.85rem;color:var(--muted)}
+</style></head>
+<body><main>
+<h1>สวนทุเรียนอัจฉริยะ</h1>
+<p class="sub">ต้นแบบเว็บไซต์ศูนย์กลาง · ข้อมูลทั้งหมดในหน้านี้เป็นข้อมูลจำลอง ลองเลื่อนแถบเพื่อดูว่าระบบแจ้งเตือนอย่างไร</p>
+
+<h2>โซนในสวน</h2>
+<div id="zones"></div>
+
+<h2>พยากรณ์ฝน</h2>
+<div class="card">
+ <div class="row" style="grid-template-columns:7rem 1fr 3.4rem"><span>ฝนใน 24 ชม.</span><input type="range" id="r24" min="0" max="60" value="2" aria-label="ฝนใน 24 ชั่วโมง"><span id="r24v"></span></div>
+ <div class="row" style="grid-template-columns:7rem 1fr 3.4rem"><span>ฝนรวม 48 ชม.</span><input type="range" id="r48" min="0" max="120" value="4" aria-label="ฝนรวม 48 ชั่วโมง"><span id="r48v"></span></div>
+ <div class="rain" id="rain"></div>
+ <p class="note">ปริมาณฝนเป็นมิลลิเมตรต่อวัน ในระบบจริงดึงจาก API พยากรณ์อากาศ</p>
+</div>
+
+<h2>ผลสำรวจโดรน</h2>
+<div class="card">
+ <p class="note" style="margin-top:0">แต่ละช่องคือพื้นที่ทรงพุ่ม คอลัมน์ซ้าย = โซน A, กลาง = โซน B, ขวา = โซน C แตะช่องเพื่อดูรายละเอียด</p>
+ <div class="grid" id="grid"></div>
+ <p id="cellinfo" class="note" aria-live="polite">แตะช่องเพื่อดูรายละเอียด</p>
+ <button class="btn" id="redo">สุ่มผลสำรวจใหม่</button>
+</div>
+
+<h2>ศูนย์แจ้งเตือน</h2>
+<div id="alerts"></div>
+
+<h2>ตัวอย่างข้อความใน LINE</h2>
+<div class="phone"><div class="hd">สวนทุเรียน (LINE Official Account)</div><div id="line"></div></div>
+<p class="note">เกณฑ์ในหน้านี้ (เช่น ความชื้นดินต่ำกว่า 35%) เป็นค่าตัวอย่างสำหรับทดลอง ใช้จริงควรให้ผู้เชี่ยวชาญด้านทุเรียนกำหนด</p>
+</main>
+<script>
+const zones=[
+ {id:'A',moist:28,ph:5.8,k:55,cols:[0,1]},
+ {id:'B',moist:82,ph:4.7,k:30,cols:[2,3,4]},
+ {id:'C',moist:52,ph:6.1,k:70,cols:[5,6]}];
+const COLS=7,ROWS=4; let grid=[];
+const $=id=>document.getElementById(id);
+
+function randGrid(){
+ grid=[];for(let i=0;i<COLS*ROWS;i++){const r=Math.random();grid.push(r<.72?0:r<.9?1:2)}
+}
+function zoneOf(c){return zones.find(z=>z.cols.includes(c))}
+
+function build(){
+ const box=$('zones');
+ zones.forEach(z=>{
+  const d=document.createElement('div');d.className='card zone';
+  d.innerHTML=`<h3>โซน ${z.id}<span class="badge" id="b${z.id}"></span></h3>
+  <div class="soil"><i id="s${z.id}"></i><b id="sv${z.id}"></b></div>
+  ${slider(z,'moist','ความชื้นดิน',0,100,'%')}
+  ${slider(z,'ph','pH ดิน',3.5,8,'',0.1)}
+  ${slider(z,'k','โพแทสเซียม',0,100,'')}`;
+  box.appendChild(d);
+ });
+ document.querySelectorAll('[data-z]').forEach(el=>el.addEventListener('input',e=>{
+  const z=zones.find(x=>x.id===el.dataset.z);z[el.dataset.k]=parseFloat(el.value);update();}));
+ ['r24','r48'].forEach(i=>$(i).addEventListener('input',update));
+ $('redo').onclick=()=>{randGrid();update()};
+ $('grid').innerHTML='';
+ for(let i=0;i<COLS*ROWS;i++){const b=document.createElement('button');b.className='cell';b.dataset.i=i;b.setAttribute('aria-label','ช่อง '+(i+1));
+  b.onclick=()=>{const c=i%COLS,z=zoneOf(c);const t=['ปกติ','ควรเฝ้าระวัง (ใบเริ่มผิดปกติ)','ผิดปกติ ควรไปตรวจ'][grid[i]];
+   $('cellinfo').textContent=`โซน ${z.id} · ช่อง ${i+1}: ${t}`};
+  $('grid').appendChild(b)}
+}
+function slider(z,k,label,min,max,u,step=1){
+ return `<div class="row"><span>${label}</span><input type="range" data-z="${z.id}" data-k="${k}" min="${min}" max="${max}" step="${step}" value="${z[k]}" aria-label="${label} โซน ${z.id}"><span id="v${z.id}${k}"></span></div>`;
+}
+function rainDays(){
+ const a=+$('r24').value,b=Math.max(+$('r48').value,a);return [a,b-a,6,18,3];
+}
+function analyze(){
+ const a=+$('r24').value,b=Math.max(+$('r48').value,a),out=[];
+ zones.forEach(z=>{
+  const n='โซน '+z.id;
+  if(z.moist>80&&b>=30)out.push({lv:2,t:`${n}: เสี่ยงน้ำขังและโรครากเน่า`,d:`ความชื้นดิน ${z.moist}% และพยากรณ์ฝน ${b} มม. ใน 48 ชม. ตรวจร่องระบายน้ำ งดรดน้ำ`});
+  else if(z.moist<25&&a<5)out.push({lv:2,t:`${n}: ดินแห้งมาก ควรรดน้ำทันที`,d:`ความชื้นดิน ${z.moist}% และไม่มีฝนใน 24 ชม.`});
+  else if(z.moist<35&&a>=10)out.push({lv:0,t:`${n}: รอฝน ยังไม่ต้องรดน้ำ`,d:`ความชื้นดิน ${z.moist}% แต่พยากรณ์ฝน ${a} มม. ใน 24 ชม.`});
+  else if(z.moist<35)out.push({lv:1,t:`${n}: ควรรดน้ำวันนี้`,d:`ความชื้นดิน ${z.moist}% ต่ำกว่าเกณฑ์ 35% และพยากรณ์ฝนน้อย`});
+  if(z.ph<5)out.push({lv:1,t:`${n}: ดินเป็นกรดมาก`,d:`pH ${z.ph.toFixed(1)} ต่ำกว่า 5.0 ธาตุอาหารบางชนิดพืชดูดได้ยาก ควรพิจารณาปรับ pH ด้วยปูน`});
+  else if(z.ph>7)out.push({lv:1,t:`${n}: ดินค่อนข้างเป็นด่าง`,d:`pH ${z.ph.toFixed(1)} สูงกว่า 7.0 อาจเกิดอาการขาดธาตุเหล็กหรือสังกะสี`});
+  if(z.k<35)out.push({lv:1,t:`${n}: โพแทสเซียมต่ำ`,d:`ค่า K ${z.k} ต่ำกว่าเกณฑ์ 35 ควรปรึกษาเรื่องปุ๋ยโพแทสเซียมตามผลตรวจดิน`});
+  const red=grid.filter((v,i)=>v===2&&zoneOf(i%COLS)===z).length;
+  if(red>=3)out.push({lv:2,t:`${n}: โดรนพบต้นผิดปกติ ${red} จุด`,d:'ควรไปตรวจหน้างานและดูความชื้นดินของโซนนี้ประกอบ'});
+  else if(red>0)out.push({lv:1,t:`${n}: โดรนพบจุดผิดปกติ ${red} จุด`,d:'เฝ้าระวังและตรวจซ้ำในการบินรอบถัดไป'});
+ });
+ if(b>=60)out.push({lv:1,t:'พยากรณ์ฝนหนักมาก',d:`ฝนรวม ${b} มม. ใน 48 ชม. ควรเตรียมระบายน้ำทั้งสวน`});
+ return out.sort((x,y)=>y.lv-x.lv);
+}
+function update(){
+ zones.forEach(z=>{
+  $('s'+z.id).style.width=z.moist+'%';$('sv'+z.id).textContent='ดิน '+z.moist+'%';
+  $('v'+z.id+'moist').textContent=z.moist+'%';$('v'+z.id+'ph').textContent=z.ph.toFixed(1);$('v'+z.id+'k').textContent=z.k;
+ });
+ $('r24v').textContent=$('r24').value+' มม.';$('r48v').textContent=Math.max(+$('r48').value,+$('r24').value)+' มม.';
+ const days=rainDays(),max=Math.max(20,...days);
+ $('rain').innerHTML=days.map((v,i)=>`<div><i style="height:${v/max*70}px"></i>${v}<br>วัน ${i+1}</div>`).join('');
+ document.querySelectorAll('.cell').forEach(c=>c.className='cell c'+grid[+c.dataset.i]);
+ const al=analyze();
+ zones.forEach(z=>{
+  const m=Math.max(-1,...al.filter(x=>x.t.startsWith('โซน '+z.id)).map(x=>x.lv));
+  const e=$('b'+z.id);e.className='badge '+(m>=2?'bad':m===1?'warn':'ok');e.textContent=m>=2?'เร่งด่วน':m===1?'เฝ้าระวัง':'ปกติ';
+ });
+ const L=['ข้อมูลทั่วไป','เฝ้าระวัง','เร่งด่วน'],I=['🟢','🟡','🔴'];
+ $('alerts').innerHTML=al.length?al.map(x=>`<div class="alert a${x.lv}"><b>${I[x.lv]} ${x.t}</b>${x.d}<br><small>ระดับ: ${L[x.lv]}</small></div>`).join(''):'<div class="alert a0"><b>🟢 ทุกอย่างปกติ</b>ยังไม่มีเรื่องที่ต้องดำเนินการ</div>';
+ const top=al.slice(0,3);
+ $('line').innerHTML=top.length?top.map(x=>`<div class="bub">${I[x.lv]} ${x.t}\n${x.d}</div>`).join(''):'<div class="bub">🟢 สรุปวันนี้: สวนอยู่ในเกณฑ์ปกติ</div>';
+}
+randGrid();build();update();
+</script>
+</body></html>
